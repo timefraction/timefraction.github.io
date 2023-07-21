@@ -113,7 +113,7 @@ function updateInputFieldAndProgressBar(fieldId, progressBarId, isLifeProgress =
         if (isLifeProgress) {
             let lifespan = document.getElementById('lifespan').value;
             let birthdate = document.getElementById('birthdate').value;
-            updateProgressBar(progressBarId, calculateLifeProgress(birthdate, lifespan), "Your life");
+            updateProgressBar(progressBarId, calculateLifeProgress(birthdate, lifespan), "Your");
         } else {
             updateProgressBar(progressBarId, value);
         }
@@ -167,7 +167,7 @@ function updateAllProgressBars() {
     });
     let lifespan = document.getElementById('lifespan').value;
     let birthdate = document.getElementById('birthdate').value;
-    updateProgressBar('life', calculateLifeProgress(birthdate, lifespan), "Your life");
+    updateProgressBar('life', calculateLifeProgress(birthdate, lifespan), "Your");
 }
 
 // Call the function immediately
