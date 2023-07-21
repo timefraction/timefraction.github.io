@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Progress Bar</title>
+</head>
+<body>
+    <h3 id="day-label">Progress of the day</h3>
+    <progress id="day" max="1" value="0"></progress>
+
+    <h3 id="week-label">Progress of the week</h3>
+    <progress id="week" max="1" value="0"></progress>
+
+    <h3 id="month-label">Progress of the month</h3>
+    <progress id="month" max="1" value="0"></progress>
+
+    <h3 id="year-label">Progress of the year</h3>
+    <progress id="year" max="1" value="0"></progress>
+
+<script>
+    function updateProgressBar(id, value) {
+        document.getElementById(id).value = value;
+        document.getElementById(id + '-label').innerText = `The ${id} is ${(value * 100).toFixed(2)}% complete.`;
+    }
+
+    function progressOfDay() {
+        let now = new Date();
+        let startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        let endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        return (now - startOfDay) / (endOfDay - startOfDay);
+    }
+
+    function progressOfWeek() {
+        let now = new Date();
+        let startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+        let endOfWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 7);
+        return (now - startOfWeek) / (endOfWeek - startOfWeek);
+    }
+
+    function progressOfMonth() {
+        let now = new Date();
+        let startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+        let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        return (now - startOfMonth) / (endOfMonth - startOfMonth);
+    }
+
+    function progressOfYear() {
+        let now = new Date();
+        let startOfYear = new Date(now.getFullYear(), 0, 1);
+        let endOfYear = new Date(now.getFullYear() + 1, 0, 1);
+        return (now - startOfYear) / (endOfYear - startOfYear);
+    }
+
+    function updateAllProgressBars() {
+        updateProgressBar('day', progressOfDay());
+        updateProgressBar('week', progressOfWeek());
+        updateProgressBar('month', progressOfMonth());
+        updateProgressBar('year', progressOfYear());
+    }
+
+    // Call the function to update all progress bars initially
+    updateAllProgressBars();
+
+    // Then set it to update every minute
+    setInterval(updateAllProgressBars, 60000);
+</script>
+</body>
+</html>
