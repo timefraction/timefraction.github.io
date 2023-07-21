@@ -1,59 +1,63 @@
 <html>
-	<head>
-		<title>Progress Bar</title>
-		<style>
-			body {
-				background: #f0f0f0;
-				font-family: Arial, sans-serif;
-				margin: 0;
-				padding: 0;
-				display: flex;
-				justify-content: center;
-				align-items: center;
-				height: 100vh;
-				color: #333;
-				flex-direction: column;
-				font-size: 16px;
-			}
+    <head>
+        <title>Progress Bar</title>
+        <style>
+            body {
+                background: #f0f0f0;
+                font-family: Arial, sans-serif;
+                margin: 0;
+                padding: 0;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                color: #333;
+                flex-direction: column;
+                font-size: 16px;
+            }
 
-			h3 {
-				margin-bottom: 10px;
-				text-align: center;
-				font-size: 30px;
-			}
+            h3 {
+                margin-bottom: 20px; /* increased space between elements */
+                text-align: center;
+                font-size: 30px; /* decreased font size for larger screens */
+            }
 
-			progress {
-				width: 70%;
-				height: 40px;
-				margin-bottom: 30px;
-				border-radius: 0;
-				appearance: none;
-			}
+            progress {
+                width: 70%;
+                height: 40px;
+                margin-bottom: 40px; /* increased space between elements */
+                border-radius: 0;
+                appearance: none;
+            }
 
-			progress::-webkit-progress-bar {
-				background-color: #ddd;
-				border-radius: 0;
-			}
+            progress::-webkit-progress-bar {
+                background-color: #ddd;
+                border-radius: 0;
+            }
 
-			progress::-webkit-progress-value {
-				background-color: #88C470;
-				border-radius: 0;
-			}
+            progress::-webkit-progress-value {
+                background-color: #88C470;
+                border-radius: 0;
+            }
 
-			progress::-moz-progress-bar {
-				background-color: #88C470;
-				border-radius: 0;
-			}
+            progress::-moz-progress-bar {
+                background-color: #88C470;
+                border-radius: 0;
+            }
 
-			/* Small devices (landscape phones, less than 768px) */
-			@media (max-width: 767px) {
-				progress {
-					width: 90%;
-				}
-			}
-		</style>
-	</head>
-	<body class="vsc-initialized">
+            /* Small devices (landscape phones, less than 768px) */
+            @media (max-width: 767px) {
+                h3 {
+                    font-size: 18px; /* decreased font size for smaller screens */
+                }
+                progress {
+                    width: 90%;
+                    height: 30px; /* decreased height for smaller screens */
+                }
+            }
+        </style>
+    </head>
+    <body class="vsc-initialized">
 		<h3 id="day-label">The day is 70.30% complete.</h3>
 		<progress id="day" max="1" value="0.7030212731481481"></progress>
 
