@@ -13,15 +13,18 @@
 				height: 100vh;
 				color: #333;
 				flex-direction: column;
+				font-size: 16px;
 			}
 
 			h3 {
 				margin-bottom: 10px;
+				text-align: center;
+				font-size: 30px;
 			}
 
 			progress {
 				width: 70%;
-				height: 20px;
+				height: 40px;
 				margin-bottom: 30px;
 				border-radius: 0;
 				appearance: none;
@@ -29,14 +32,24 @@
 
 			progress::-webkit-progress-bar {
 				background-color: #ddd;
+				border-radius: 0;
 			}
 
 			progress::-webkit-progress-value {
 				background-color: #88C470;
+				border-radius: 0;
 			}
 
 			progress::-moz-progress-bar {
 				background-color: #88C470;
+				border-radius: 0;
+			}
+
+			/* Small devices (landscape phones, less than 768px) */
+			@media (max-width: 767px) {
+				progress {
+					width: 90%;
+				}
 			}
 		</style>
 	</head>
