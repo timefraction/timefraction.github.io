@@ -77,52 +77,104 @@
         <h3 id="year-label">The year is 55.25% complete.</h3>
         <progress id="year" max="1" value="0.5524968619355657"></progress>
 
+		<h3 id="life-label">Your life is ?% complete.</h3>
+		<progress id="life" max="1" value="0"></progress>
+
+		<div id="lifespan-form">
+		<label for="birthdate">Enter your birthdate:</label>
+		<input type="date" id="birthdate">
+		<br>
+		<label for="lifespan">Expected lifespan (years):</label>
+		<input type="number" id="lifespan" min="1">
+		</div>
+
         <script>
-            function updateProgressBar(id, value) {
-                document.getElementById(id).value = value;
-                document.getElementById(id + '-label').innerText = `The ${id} is ${(value * 100).toFixed(2)}% complete.`;
-            }
+function updateProgressBar(id, value, labelPrefix = 'The') {
+    document.getElementById(id).value = value;
+    document.getElementById(id + '-label').innerText = `${labelPrefix} ${id} is ${(value * 100).toFixed(2)}% complete.`;
+}
 
-            function progressOfDay() {
-                let now = new Date();
-                let startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-                let endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-                return (now - startOfDay) / (endOfDay - startOfDay);
-            }
+function calculateProgress(startDate, endDate) {
+    let now = new Date();
+    return (now - startDate) / (endDate - startDate);
+}
 
-            function progressOfWeek() {
-                let now = new Date();
-                let startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
-                let endOfWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 7);
-                return (now - startOfWeek) / (endOfWeek - startOfWeek);
-            }
+function calculateLifeProgress(birthdate, lifespan) {
+    let now = new Date();
+    let birth = new Date(birthdate);
+    let livedYears = now.getFullYear() - birth.getFullYear();
+    return livedYears / lifespan;
+}
 
-            function progressOfMonth() {
-                let now = new Date();
-                let startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-                let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-                return (now - startOfMonth) / (endOfMonth - startOfMonth);
-            }
+function updateInputFieldAndProgressBar(fieldId, progressBarId, isLifeProgress = false) {
+    document.getElementById(fieldId).addEventListener('input', function() {
+        let value = this.value;
+        localStorage.setItem(fieldId, value);
+        if (isLifeProgress) {
+            let lifespan = document.getElementById('lifespan').value;
+            let birthdate = document.getElementById('birthdate').value;
+            updateProgressBar(progressBarId, calculateLifeProgress(birthdate, lifespan), "Your life");
+        } else {
+            updateProgressBar(progressBarId, value);
+        }
+    });
+}
 
-            function progressOfYear() {
-                let now = new Date();
-                let startOfYear = new Date(now.getFullYear(), 0, 1);
-                let endOfYear = new Date(now.getFullYear() + 1, 0, 1);
-                return (now - startOfYear) / (endOfYear - startOfYear);
-            }
+let periods = ['day', 'week', 'month', 'year'];
+let now = new Date();
 
-            function updateAllProgressBars() {
-                updateProgressBar('day', progressOfDay());
-                updateProgressBar('week', progressOfWeek());
-                updateProgressBar('month', progressOfMonth());
-                updateProgressBar('year', progressOfYear());
-            }
+periods.forEach(period => {
+    let startDate, endDate;
+    if (period === 'day') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    } else if (period === 'week') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+        endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 7);
+    } else if (period === 'month') {
+        startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+        endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+    } else if (period === 'year') {
+        startDate = new Date(now.getFullYear(), 0, 1);
+        endDate = new Date(now.getFullYear() + 1, 0, 1);
+    }
+    updateProgressBar(period, calculateProgress(startDate, endDate));
+});
 
-            // Call the function to update all progress bars initially
-            updateAllProgressBars();
+updateInputFieldAndProgressBar('birthdate', 'life', true);
+updateInputFieldAndProgressBar('lifespan', 'life', true);
 
-            // Then set it to update every minute
-            setInterval(updateAllProgressBars, 1000);
+document.getElementById('birthdate').value = localStorage.getItem('birthdate') || '';
+document.getElementById('lifespan').value = localStorage.getItem('lifespan') || 80;
+
+function updateAllProgressBars() {
+    periods.forEach(period => {
+        let startDate, endDate;
+        if (period === 'day') {
+            startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+            endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+        } else if (period === 'week') {
+            startDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+            endDate = new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + 7);
+        } else if (period === 'month') {
+            startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+            endDate = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+        } else if (period === 'year') {
+            startDate = new Date(now.getFullYear(), 0, 1);
+            endDate = new Date(now.getFullYear() + 1, 0, 1);
+        }
+        updateProgressBar(period, calculateProgress(startDate, endDate));
+    });
+    let lifespan = document.getElementById('lifespan').value;
+    let birthdate = document.getElementById('birthdate').value;
+    updateProgressBar('life', calculateLifeProgress(birthdate, lifespan), "Your life");
+}
+
+// Call the function immediately
+updateAllProgressBars();
+
+// Then set it to update every second
+setInterval(updateAllProgressBars, 1000);
         </script>
 
     </body>
