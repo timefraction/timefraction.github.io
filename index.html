@@ -1,6 +1,7 @@
 <html>
     <head>
         <title>Progress Bar</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <style>
             body {
                 background: #f0f0f0;
@@ -19,7 +20,7 @@
             h3 {
                 margin-bottom: 10px;
                 text-align: center;
-                font-size: 30px;
+                font-size: 24px;
             }
 
             progress {
@@ -45,8 +46,8 @@
                 border-radius: 0;
             }
 
-            /* Small devices (landscape phones, less than 768px) */
-            @media (max-width: 767px) {
+            /* Small devices (less than 1024px) */
+            @media (max-width: 1024px) {
                 body {
                     font-size: 20px; /* Larger default font size on mobile */
                 }
@@ -63,64 +64,65 @@
         </style>
     </head>
     <body class="vsc-initialized">
-		<h3 id="day-label">The day is 70.30% complete.</h3>
-		<progress id="day" max="1" value="0.7030212731481481"></progress>
+        <h3 id="day-label">The day is 70.30% complete.</h3>
+        <progress id="day" max="1" value="0.7030212731481481"></progress>
 
-		<h3 id="week-label">The week is 81.47% complete.</h3>
-		<progress id="week" max="1" value="0.8147173247354498"></progress>
+        <h3 id="week-label">The week is 81.47% complete.</h3>
+        <progress id="week" max="1" value="0.8147173247354498"></progress>
 
-		<h3 id="month-label">The month is 69.01% complete.</h3>
-		<progress id="month" max="1" value="0.6901007091049383"></progress>
+        <h3 id="month-label">The month is 69.01% complete.</h3>
+        <progress id="month" max="1" value="0.6901007091049383"></progress>
 
-		<h3 id="year-label">The year is 55.25% complete.</h3>
-		<progress id="year" max="1" value="0.5524968619355657"></progress>
+        <h3 id="year-label">The year is 55.25% complete.</h3>
+        <progress id="year" max="1" value="0.5524968619355657"></progress>
 
-		<script>
-			function updateProgressBar(id, value) {
-				document.getElementById(id).value = value;
-				document.getElementById(id + '-label').innerText = `The ${id} is ${(value * 100).toFixed(2)}% complete.`;
-			}
+        <script>
+            function updateProgressBar(id, value) {
+                document.getElementById(id).value = value;
+                document.getElementById(id + '-label').innerText = `The ${id} is ${(value * 100).toFixed(2)}% complete.`;
+            }
 
-			function progressOfDay() {
-				let now = new Date();
-				let startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-				let endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-				return (now - startOfDay) / (endOfDay - startOfDay);
-			}
+            function progressOfDay() {
+                let now = new Date();
+                let startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                let endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+                return (now - startOfDay) / (endOfDay - startOfDay);
+            }
 
-			function progressOfWeek() {
-				let now = new Date();
-				let startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
-				let endOfWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 7);
-				return (now - startOfWeek) / (endOfWeek - startOfWeek);
-			}
+            function progressOfWeek() {
+                let now = new Date();
+                let startOfWeek = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay());
+                let endOfWeek = new Date(startOfWeek.getFullYear(), startOfWeek.getMonth(), startOfWeek.getDate() + 7);
+                return (now - startOfWeek) / (endOfWeek - startOfWeek);
+            }
 
-			function progressOfMonth() {
-				let now = new Date();
-				let startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-				let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
-				return (now - startOfMonth) / (endOfMonth - startOfMonth);
-			}
+            function progressOfMonth() {
+                let now = new Date();
+                let startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+                let endOfMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0);
+                return (now - startOfMonth) / (endOfMonth - startOfMonth);
+            }
 
-			function progressOfYear() {
-				let now = new Date();
-				let startOfYear = new Date(now.getFullYear(), 0, 1);
-				let endOfYear = new Date(now.getFullYear() + 1, 0, 1);
-				return (now - startOfYear) / (endOfYear - startOfYear);
-			}
+            function progressOfYear() {
+                let now = new Date();
+                let startOfYear = new Date(now.getFullYear(), 0, 1);
+                let endOfYear = new Date(now.getFullYear() + 1, 0, 1);
+                return (now - startOfYear) / (endOfYear - startOfYear);
+            }
 
-			function updateAllProgressBars() {
-				updateProgressBar('day', progressOfDay());
-				updateProgressBar('week', progressOfWeek());
-				updateProgressBar('month', progressOfMonth());
-				updateProgressBar('year', progressOfYear());
-			}
+            function updateAllProgressBars() {
+                updateProgressBar('day', progressOfDay());
+                updateProgressBar('week', progressOfWeek());
+                updateProgressBar('month', progressOfMonth());
+                updateProgressBar('year', progressOfYear());
+            }
 
-			// Call the function to update all progress bars initially
-			updateAllProgressBars();
+            // Call the function to update all progress bars initially
+            updateAllProgressBars();
 
-			// Then set it to update every minute
-			setInterval(updateAllProgressBars, 1000);
-		</script>
-	</body>
+            // Then set it to update every minute
+            setInterval(updateAllProgressBars, 1000);
+        </script>
+
+    </body>
 </html>
